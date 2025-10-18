@@ -1,6 +1,6 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {assets} from '../assets/assets'
-import {useClerk,useUser} from '@clerk/clerk-react'
+import {useClerk,useUser,UserButton} from '@clerk/clerk-react'
 import { Link } from 'react-router-dom'
 const Navbar = () => {
   const {openSignIn}= useClerk()
@@ -12,8 +12,8 @@ const Navbar = () => {
             {user?<div className='flex items-center gap-3'>
               <Link to={'/applications'}>Applied Jobs</Link>
               <p>|</p>
-              <p>Hi, {user.firstName+" "+user.lastName}</p>
-              <userButton />
+              <p className='max-sm:hidden'>Hi, {user.firstName+" "+user.lastName}</p>
+              <UserButton />
             </div>
             :
             <div className='flex gap-4 max-sm:text-xs'>

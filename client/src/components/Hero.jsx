@@ -1,6 +1,19 @@
-import React from 'react'
+import React, {useContext,useState,useRef} from 'react'
 import { assets } from '../assets/assets'
+import {AppContext} from '../context/AppContext'
 const Hero = () => {
+
+   const {setSearchFilter,setIsSearched}=useContext(AppContext)
+   const titleRef =useRef(null)
+   const locationRef=useRef(null)
+   const onSearch =()=>{
+      setSearchFilter({
+        title:titleRef.current.value,
+        location: locationRef.current.value
+      })
+      setIsSearched(true)
+      
+   }
   return (
     <div className="w-full px-4 sm:px-8 lg:px-20 my-10">
   <div className="max-w-6xl mx-auto">
@@ -15,7 +28,7 @@ const Hero = () => {
       <div className="flex flex-col sm:flex-row items-center justify-between bg-white rounded text-gray-600 max-w-xl mx-auto gap-2 px-3 py-2">
         <div className="flex items-center flex-1">
           <img className="h-4 sm:h-5 mr-2" src={assets.search_icon} alt="" />
-          <input
+          <input ref={titleRef}
             type="text"
             placeholder="search for jobs"
             className="text-xs sm:text-sm p-2 rounded outline-none w-full"
@@ -23,13 +36,13 @@ const Hero = () => {
         </div>
         <div className="flex items-center flex-1">
           <img className="h-4 sm:h-5 mr-2" src={assets.location_icon} alt="" />
-          <input
+          <input ref={locationRef}
             type="text"
             placeholder="location"
             className="text-xs sm:text-sm p-2 rounded outline-none w-full"
           />
         </div>
-        <button className="bg-blue-600 px-6 py-2 rounded text-white">
+        <button onClick={onSearch} className="bg-blue-600 px-6 py-2 rounded text-white">
           Search
         </button>
       </div>
