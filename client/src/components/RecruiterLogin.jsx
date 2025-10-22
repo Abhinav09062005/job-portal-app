@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
 import {AppContext} from '../context/AppContext'
+import { useContext } from 'react';
 const RecruiterLogin = () => {
   const [state, setState] = useState('Login');
   const [name, setName] = useState('');
