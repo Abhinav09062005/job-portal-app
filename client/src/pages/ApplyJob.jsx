@@ -1,11 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect ,useNavigate} from "react";
 import { AppContext } from "../context/AppContext";
 import Navbar from "../components/Navbar";
 import { assets } from "../assets/assets";
 import kconvert from "k-convert";
 import moment from "moment";
+import JobCard from "../components/JobCard";
+import Footer from "../components/Footer";
+
 const ApplyJob = () => {
   const { id } = useParams();
   const [JobData, setJobData] = useState(null);
@@ -80,9 +83,17 @@ const ApplyJob = () => {
                 Apply Now
               </button>
             </div>
+            <div className="w-full lg:w-1/3 mt-8 lg:mt-0 lg:ml-8 space-y-5">
+              <h2>More Jobs from {JobData.companyId.name}</h2>
+              {jobs.filter(job=>job._id !==JobData._id && job.companyId._id===JobData.companyId._id).filter(job=>true).slice(0,4).map((job,index)=> <JobCard key={index} job={job}/>)}
+            </div>
           </div>
+
+
         </div>
       </div>
+      <Footer/>
+
     </div>
   ) : (
     <div></div>
