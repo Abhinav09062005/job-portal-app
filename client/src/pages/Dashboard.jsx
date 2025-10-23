@@ -47,8 +47,8 @@ const Dashboard = () => {
                 }`
               }
             >
-              <img src={assets.add_icon} alt="Add Job Icon" />
-              <p>Add Job</p>
+              <img className='min-w-4' src={assets.add_icon} alt="Add Job Icon" />
+              <p className='max-sm:hidden'>Add Job</p>
             </NavLink>
 
             <NavLink
@@ -59,8 +59,8 @@ const Dashboard = () => {
                 }`
               }
             >
-              <img src={assets.home_icon} alt="Manage Job Icon" />
-              <p>Manage Job</p>
+              <img className='min-w-4' src={assets.home_icon} alt="Manage Job Icon" />
+              <p className='max-sm:hidden'>Manage Job</p>
             </NavLink>
 
             <NavLink
@@ -71,8 +71,8 @@ const Dashboard = () => {
                 }`
               }
             >
-              <img src={assets.person_tick_icon} alt="View Applications Icon" />
-              <p>View Applications</p>
+              <img className='min-w-4'  src={assets.person_tick_icon} alt="View Applications Icon" />
+              <p className='max-sm:hidden'>View Applications</p>
             </NavLink>
           </ul>
         </div>
