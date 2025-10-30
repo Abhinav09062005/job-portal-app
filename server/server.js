@@ -6,20 +6,15 @@ import { clerkWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
 
-// ✅ First connect to MongoDB (before routes are used)
 connectDB();
 
-// ✅ CORS
 app.use(cors());
 
-// RAW body for webhook
 app.post("/webhooks", express.raw({ type: "*/*" }), clerkWebhooks);
 
 
-// ✅ JSON Parser for every other API route
 app.use(express.json());
 
-// ✅ Example Route
 app.get("/", (req, res) => {
   res.send("API working ✅");
 });
