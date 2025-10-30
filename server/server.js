@@ -12,8 +12,9 @@ connectDB();
 // ✅ CORS
 app.use(cors());
 
-// ✅ RAW BODY middleware ONLY for Clerk Webhooks
+// RAW body for webhook
 app.post("/webhooks", express.raw({ type: "*/*" }), clerkWebhooks);
+
 
 // ✅ JSON Parser for every other API route
 app.use(express.json());
