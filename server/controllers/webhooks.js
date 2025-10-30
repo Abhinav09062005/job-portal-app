@@ -6,7 +6,7 @@ export const clerkWebhooks = async (req, res) => {
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
     // ✅ Verify raw body, not JSON body
-    const payloadString = req.body.toString();
+const payloadString = req.body.toString();
 
     const headers = {
       "svix-id": req.headers["svix-id"],
