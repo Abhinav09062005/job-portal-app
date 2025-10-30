@@ -1,38 +1,33 @@
-import './config/instrument.js'
-import express from 'express'
-import cors from 'cors'
-import 'dotenv/config'
-import connectDB from './config/db.js'
-import * as Sentry from "@sentry/node"
-import { clerkWebhooks } from './controllers/webhooks.js'
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+import connectDB from "./config/db.js";
+import * as Sentry from "@sentry/node";
+import { clerkWebhooks } from "./controllers/webhooks.js";
 
-const app = express()
+const app = express();
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
 
-app.get('/', (req, res) => res.send("API working"))
-app.get("/debug-sentry", (req, res) => {
-  throw new Error("My first Sentry error!")
-})
+// ✅ Raw body must be used for webhooks BEFORE JSON parsing
+app.use("/webhooks", express.raw({ type: "*/*" }));
 
-app.post('/webhooks', clerkWebhooks)
+// Normal JSON parsing for all other routes
+app.use(express.json());
 
-// Connect DB
+app.get("/", (req, res) => {
+  res.send("✅ API working");
+});
+
+app.post("/webhooks", clerkWebhooks);
+
+// DB Connect
 connectDB()
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ DB connection error:", err))
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.log("❌ DB Connection Failed:", err));
 
-Sentry.setupExpressErrorHandler(app)
-
-// Use this only locally (optional)
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000
-  app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`)
-  })
-}
-
-// Export for server hosting (Render needs it)
-export default app
-  
+// ✅ Production & Local Server Listen
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
