@@ -18,20 +18,21 @@ app.get("/debug-sentry", (req, res) => {
 
 app.post('/webhooks', clerkWebhooks)
 
-// Connect DB when deployed or locally
+// Connect DB
 connectDB()
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ DB connection error:", err))
 
 Sentry.setupExpressErrorHandler(app)
 
-// ✅ Export app for Vercel
-export default app
-
-// ✅ Local development only
+// Use this only locally (optional)
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000
   app.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`)
   })
 }
+
+// Export for server hosting (Render needs it)
+export default app
+  
