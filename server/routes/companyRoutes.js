@@ -20,7 +20,7 @@ router.post('/post-job',protectCompany,postJob)
 router.post('/applicants',protectCompany,getCompanyJobApplicants)
 
 // get company job list
-router.post('/list-jobs',protectCompany,getCompanyPostedJobs)
+router.get('/list-jobs',protectCompany,getCompanyPostedJobs)
 
 // change applicants status
 router.post('/change-status',protectCompany,changeJobApplicationsStatus)
