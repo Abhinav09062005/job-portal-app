@@ -7,10 +7,11 @@ import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const ManageJobs = () => {
   const navigate=useNavigate()
-  const [jobs,setJobs]=useState(false)
+const [jobs, setJobs] = useState([]);
   const {backendUrl,companyToken}=useContext(AppContext)
   const fetchCompanyJobs=async()=>{
        try {
@@ -48,7 +49,7 @@ const ManageJobs = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {manageJobsData.map((job, index) => (
+            {jobs.map((job, index) => (
               <tr key={index} className="hover:bg-gray-50 transition-colors">
                 <td className="px-4 py-3 text-sm text-gray-700">{index + 1}</td>
                 <td className="px-4 py-3 text-sm text-gray-800 font-medium">{job.title}</td>
