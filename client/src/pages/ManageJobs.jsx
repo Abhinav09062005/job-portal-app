@@ -2,9 +2,36 @@ import React from 'react';
 import { manageJobsData } from '../assets/assets';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const ManageJobs = () => {
   const navigate=useNavigate()
+  const [jobs,setJobs]=useState(false)
+  const {backendUrl,companyToken}=useContext(AppContext)
+  const fetchCompanyJobs=async()=>{
+       try {
+        const{data}=await axios.get(backendUrl+'/api/company/list-jobs',{headers:{token:companyToken}})
+       
+      if(data.success){
+        setJobs(data.jobsData.reverse())
+        console.log(data.jobsData);
+        
+      } else{
+        toast.error(data.message)
+      }
+      } catch (error) {
+        toast.error(error.message)
+       }
+  }
+  useEffect(()=>{
+    if(companyToken){
+      fetchCompanyJobs()
+    }
+  },[companyToken])
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-xl">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">Manage Jobs</h2>

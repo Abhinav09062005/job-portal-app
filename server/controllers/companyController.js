@@ -51,7 +51,7 @@ export const loginCompany = async (req, res) => {
   const { email, password } = req.body;
   try {
     const company = await Company.findOne({ email });
-    if (bcrypt.compare(password, company.password)) {
+    if (await bcrypt.compare(password, company.password)) {
       res.json({
         success: true,
         company: {
@@ -118,8 +118,11 @@ export const getCompanyPostedJobs = async (req, res) => {
         const companyId = req.company._id;
 
         const jobs = await Job.find({ companyId });
-
-        return res.json({ success: true, jobsData: jobs });
+        const jobData=await Promise.all(jobs.map(async(job)=>{
+          const applicants=await JobApplication.find({jobId:job._id});
+          return {...job.toObject(), applicants:applicants.length}
+        }))
+        return res.json({ success: true, jobsData});
 
     } catch (error) {
         return res.json({ success: false, message: error.message });
