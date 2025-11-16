@@ -3,7 +3,12 @@ import Job from "../models/job.js";
 import JobApplication from "../models/jobApplication.js";
 import { v2 as cloudinary } from "cloudinary";
 export const getUserData = async (req, res) => {
-  const userId = req.auth.userId;
+  console.log("REQ.AUTH:", req.auth);
+console.log("REQ.AUTH TYPE:", typeof req.auth);
+console.log("REQ.AUTH KEYS:", req.auth && Object.keys(req.auth));
+console.log("RAW AUTH HEADER:", req.headers.authorization);
+
+const { userId } = req.auth();
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -18,7 +23,7 @@ export const getUserData = async (req, res) => {
 // apply fo jb
 export const applyForJob = async (req, res) => {
   const { jobId } = req.body;
-  const userId = req.auth.userId;
+const { userId } = req.auth();
   try {
     const isAlreadyApplied = await JobApplication.find({ userId, jobId });
     if (isAlreadyApplied.length > 0) {
@@ -46,7 +51,7 @@ export const applyForJob = async (req, res) => {
 // get user applied applications
 export const getUserJobApplications = async (req, res) => {
   try {
-    const userId = req.auth.userId;
+const { userId } = req.auth();
     const applications = await JobApplication.find({ userId })
       .populate("companyId", "name email image")
       .populate("jobId", "title description location category level salary")
@@ -63,7 +68,7 @@ export const getUserJobApplications = async (req, res) => {
 // update user profile
 export const updateUserResume = async (req, res) => {
   try {
-    const userId = req.auth.userId;
+const { userId } = req.auth();
     const resumeFile = req.resumeFile;
     const userData = await User.findById(userId);
     if (resumeFile) {

@@ -28,6 +28,19 @@ const [jobs, setJobs] = useState([]);
         toast.error(error.message)
        }
   }
+  const changeVisibility=async(id)=>{
+     try {
+      const {data}=await axios.post(backendUrl+'/api/company/change-visibility',{id},{headers:{token:companyToken}})
+       if(data.success){
+        toast.success(data.message)
+        fetchCompanyJobs()
+       } else{
+        toast.error(data.message)
+       }
+    } catch (error) {
+      toast.error(error.message)
+     }
+  }
   useEffect(()=>{
     if(companyToken){
       fetchCompanyJobs()
@@ -57,8 +70,8 @@ const [jobs, setJobs] = useState([]);
                 <td className="px-4 py-3 text-sm text-gray-700">{job.location}</td>
                 <td className="px-4 py-3 text-sm text-gray-700">{job.applicants}</td>
                 <td className="px-4 py-3">
-                  <input
-                    type="checkbox"
+                  <input onChange={()=>changeVisibility(job._id)}
+                    type="checkbox" checked={job.visible}
                     className="h-4 w-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
                   />
                 </td>
